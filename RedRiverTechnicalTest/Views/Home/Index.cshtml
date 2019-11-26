@@ -1,8 +1,43 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model DrinksSelectionViewModel
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => Model.SelectedDrink, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-5">
+            @Html.DropDownListFor(x=>x.SelectedDrink,
+                Model.AvailableDrinks)
+            @Html.ValidationMessageFor(x => x.SelectedDrink, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-5">
+            <br />
+            <input type="submit" value="Submit" />
+        </div>
+    </div>
+}
+<div class="form-group">
+    <div class="col-md-5">
+        @if (!string.IsNullOrWhiteSpace(Model.SelectedDrink))
+        {
+            <text>You have selected:</text>
+            <b>@Model.SelectedDrink</b>
+            <text>hot drink</text><br />
+
+            <text>This is how is made:</text><br />
+            @foreach (var a in ViewBag.ActionsPerformedDuringOperation)
+            {
+                <text>-</text>
+                @Html.Raw(a)
+                <br />
+            }
+        }
+    </div>
 </div>
